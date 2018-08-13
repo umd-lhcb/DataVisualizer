@@ -1,24 +1,21 @@
 #!/usr/bin/env python
 #
-# Last Change: Thu Aug 09, 2018 at 05:25 PM -0400
+# Last Change: Sun Aug 12, 2018 at 11:01 PM -0400
 
-
-from random import random
-
-from bokeh.layouts import column
+# from bokeh.layouts import column
 # from bokeh.models import Button
-from bokeh.palettes import RdYlBu3
+# from bokeh.palettes import RdYlBu3
 from bokeh.plotting import figure, curdoc
 
 from bokeh.models.sources import AjaxDataSource
+from bokeh.models.formatters import DatetimeTickFormatter
 
-from bokeh.plotting import figure
 
 ###############
 # Data source #
 ###############
 
-def get_data_source(data_url, polling_interval=5000):
+def get_data_source(data_url, polling_interval=100):
     return AjaxDataSource(data_url=data_url, polling_interval=polling_interval)
 
 
@@ -26,12 +23,31 @@ def get_data_source(data_url, polling_interval=5000):
 # Plot #
 ########
 
+def get_stream_plot(title, plot_height=300, plot_width=800):
+    fig = figure(
+        plot_height=plot_height, plot_width=plot_width,
+        title=title, x_axis_type='datetime'
+    )
+
+    # Set figure styles
+    fig.outline_line_width = 2
+
+    # Set datetime style
+    fig.xaxis.formatter = DatetimeTickFormatter(minutes=['%k:%M'])
+    # fig.xaxis.major_label_orientation = 1.5
+
+    return fig
+
+
+##########
+# Layout #
+##########
+
 source = get_data_source('http://127.0.0.1:45678/get/CHANNEL1')
-p = figure(plot_height=300, plot_width=800, background_fill_color="lightgrey",
-           title="stream")
-p.circle('time', 'data', source=source)
+p = get_stream_plot('Stream')
+p.circle(source=source, x='time', y='data')
 p.x_range.follow = "end"
-p.x_range.follow_interval = 10
+#p.x_range.follow_interval = 10
 
 ################
 # App settings #
