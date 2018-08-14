@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Sun Aug 12, 2018 at 11:01 PM -0400
+# Last Change: Mon Aug 13, 2018 at 11:14 AM -0400
 
 # from bokeh.layouts import column
 # from bokeh.models import Button
@@ -33,7 +33,10 @@ def get_stream_plot(title, plot_height=300, plot_width=800):
     fig.outline_line_width = 2
 
     # Set datetime style
-    fig.xaxis.formatter = DatetimeTickFormatter(minutes=['%k:%M'])
+    fig.xaxis.formatter = DatetimeTickFormatter(
+            minutes=['%k:%M'],
+            minsec=['%k:%M:%S']
+            )
     # fig.xaxis.major_label_orientation = 1.5
 
     return fig
@@ -47,7 +50,7 @@ source = get_data_source('http://127.0.0.1:45678/get/CHANNEL1')
 p = get_stream_plot('Stream')
 p.circle(source=source, x='time', y='data')
 p.x_range.follow = "end"
-#p.x_range.follow_interval = 10
+# p.x_range.follow_interval = 10
 
 ################
 # App settings #
