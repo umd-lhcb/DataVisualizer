@@ -1,45 +1,53 @@
 #!/usr/bin/env python
 #
-# Last Change: Mon Aug 13, 2018 at 11:14 AM -0400
+# Last Change: Wed Aug 15, 2018 at 01:47 AM -0400
+
+import yaml
+import sys
+
+from argparse import ArgumentParser
+from pathlib import Path
 
 # from bokeh.layouts import column
 # from bokeh.models import Button
 # from bokeh.palettes import RdYlBu3
-from bokeh.plotting import figure, curdoc
+from bokeh.plotting import curdoc
 
-from bokeh.models.sources import AjaxDataSource
-from bokeh.models.formatters import DatetimeTickFormatter
-
-
-###############
-# Data source #
-###############
-
-def get_data_source(data_url, polling_interval=100):
-    return AjaxDataSource(data_url=data_url, polling_interval=polling_interval)
+from .elements import get_data_source
+from .elements import get_stream_plot
 
 
-########
-# Plot #
-########
+#################################
+# Parse arguments/configuration #
+#################################
 
-def get_stream_plot(title, plot_height=300, plot_width=800):
-    fig = figure(
-        plot_height=plot_height, plot_width=plot_width,
-        title=title, x_axis_type='datetime'
+def parse_input():
+    parser = ArgumentParser(
+        description='A data visualization server for burn-in.'
     )
 
-    # Set figure styles
-    fig.outline_line_width = 2
+    parser.add_argument(
+        '--config-file',
+        dest='configFile',
+        help='''
+        specify configuration file.
+        ''',
+        type=str,
+        default='DVApp.yml'
+    )
 
-    # Set datetime style
-    fig.xaxis.formatter = DatetimeTickFormatter(
-            minutes=['%k:%M'],
-            minsec=['%k:%M:%S']
-            )
-    # fig.xaxis.major_label_orientation = 1.5
+    return parser.parse_args()
 
-    return fig
+
+def parse_config(config_file):
+    if Path(config_file).exists():
+        with open(config_file) as cfg:
+            parsed = yaml.load(cfg)
+        return parsed
+
+    else:
+        print('{}: configuration file does not exist.'.format(config_file))
+        sys.exit(1)
 
 
 ##########
@@ -52,8 +60,9 @@ p.circle(source=source, x='time', y='data')
 p.x_range.follow = "end"
 # p.x_range.follow_interval = 10
 
-################
-# App settings #
-################
+
+#########
+# Setup #
+#########
 
 curdoc().add_root(p)
