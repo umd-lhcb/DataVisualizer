@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Wed Aug 15, 2018 at 01:47 AM -0400
+# Last Change: Wed Aug 15, 2018 at 02:07 AM -0400
 
 import yaml
 import sys
@@ -13,8 +13,8 @@ from pathlib import Path
 # from bokeh.palettes import RdYlBu3
 from bokeh.plotting import curdoc
 
-from .elements import get_data_source
-from .elements import get_stream_plot
+from elements import get_data_source
+from elements import get_stream_plot
 
 
 #################################
@@ -50,19 +50,24 @@ def parse_config(config_file):
         sys.exit(1)
 
 
+#########
+# Setup #
+#########
+
+args = parse_input()
+options = parse_config(args.configFile)
+print(options)
+
+
 ##########
 # Layout #
 ##########
 
-source = get_data_source('http://127.0.0.1:45678/get/CHANNEL1')
+source = get_data_source('http://' + options['client']['host'] + ':' +
+                         str(options['client']['port']) + '/get/CHANNEL1')
 p = get_stream_plot('Stream')
 p.circle(source=source, x='time', y='data')
 p.x_range.follow = "end"
 # p.x_range.follow_interval = 10
-
-
-#########
-# Setup #
-#########
 
 curdoc().add_root(p)
