@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Wed Aug 15, 2018 at 02:07 AM -0400
+# Last Change: Thu Aug 16, 2018 at 03:17 PM -0400
 
 import yaml
 import sys
@@ -9,9 +9,11 @@ from argparse import ArgumentParser
 from pathlib import Path
 
 # from bokeh.layouts import column
-# from bokeh.models import Button
 # from bokeh.palettes import RdYlBu3
 from bokeh.plotting import curdoc
+from bokeh.models.widgets import Select
+from bokeh.layouts import widgetbox
+from bokeh.layouts import column
 
 from elements import get_data_source
 from elements import get_stream_plot
@@ -56,18 +58,20 @@ def parse_config(config_file):
 
 args = parse_input()
 options = parse_config(args.configFile)
-print(options)
+
+avaliable_channels = ["test", "two"]
+select = Select(title="Select channel:", value="test", options=avaliable_channels)
+
+source = get_data_source(
+    'http://' + options['client']['host'] + ':' + str(options['client']['port']) + '/get/CHANNEL1')
+p = get_stream_plot('Stream')
+p.circle(source=source, x='time', y='data')
+p.x_range.follow = "end"
 
 
 ##########
 # Layout #
 ##########
 
-source = get_data_source('http://' + options['client']['host'] + ':' +
-                         str(options['client']['port']) + '/get/CHANNEL1')
-p = get_stream_plot('Stream')
-p.circle(source=source, x='time', y='data')
-p.x_range.follow = "end"
-# p.x_range.follow_interval = 10
-
-curdoc().add_root(p)
+layout = column([widgetbox(select), p], width=1000)
+curdoc().add_root(layout)
