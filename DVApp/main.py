@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Thu Aug 16, 2018 at 03:17 PM -0400
+# Last Change: Thu Aug 16, 2018 at 11:49 PM -0400
 
 import yaml
 import sys
@@ -73,5 +73,15 @@ p.x_range.follow = "end"
 # Layout #
 ##########
 
-layout = column([widgetbox(select), p], width=1000)
+layout = column([widgetbox(select), p], name='layout')
+
 curdoc().add_root(layout)
+
+curdoc().template_variables['stats_names'] = ['users', 'new_users', 'time', 'sessions', 'sales']
+curdoc().template_variables['stats'] = {
+    'users'     : {'icon': 'user',        'value': 11200, 'change':  4   , 'label': 'Total Users'},
+    'new_users' : {'icon': 'user',        'value': 350,   'change':  1.2 , 'label': 'New Users'},
+    'time'      : {'icon': 'clock-o',     'value': 5.6,   'change': -2.3 , 'label': 'Total Time'},
+    'sessions'  : {'icon': 'user',        'value': 27300, 'change':  0.5 , 'label': 'Total Sessions'},
+    'sales'     : {'icon': 'dollar-sign', 'value': 8700,  'change': -0.2 , 'label': 'Average Sales'},
+    }
