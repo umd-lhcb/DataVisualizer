@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Thu Aug 16, 2018 at 11:49 PM -0400
+# Last Change: Sat Aug 18, 2018 at 12:36 AM -0400
 
 import yaml
 import sys
@@ -72,6 +72,10 @@ p.x_range.follow = "end"
 ##########
 # Layout #
 ##########
+
+app_name = 'UT Burn In @ UMD'
+curdoc().template_variables['app_name'] = app_name
+curdoc().title = app_name
 
 layout = column([widgetbox(select), p], name='layout')
 
