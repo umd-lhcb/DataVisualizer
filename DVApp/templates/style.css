@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: monospace;
+}
+
+
+.LHCbLightBlue {
+    background: #cae9eb;
+}
+
+.LHCbDarkBlue {
+    background: #243b98;
+}
+
+.LHCbOrange {
+    background: #ee3727;
+}
+
+
+.StickyTopBar {
+    position: fixed;
+    width: 100%;
+}
