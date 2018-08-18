@@ -1,22 +1,39 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.5;
     font-family: monospace;
 }
 
+h1 {
+    margin: 12px 12px 12px 12px;
+    font-size: 24px;
+}
 
-.LHCbLightBlue {
+
+.BgLHCbLightBlue {
     background: #cae9eb;
 }
 
-.LHCbDarkBlue {
+.FgLHCbLightBlue {
+    color: #cae9eb;
+}
+
+.BgLHCbDarkBlue {
     background: #243b98;
 }
 
-.LHCbOrange {
+.FgLHCbDarkBlue {
+    color: #243b98;
+}
+
+.BgLHCbOrange {
     background: #ee3727;
+}
+
+.FgLHCbOrange {
+    color: #ee3727;
 }
 
 
