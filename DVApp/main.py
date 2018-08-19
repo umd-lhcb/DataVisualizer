@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Sun Aug 19, 2018 at 03:28 AM -0400
+# Last Change: Sun Aug 19, 2018 at 04:52 PM -0400
 
 import yaml
 import sys
@@ -8,7 +8,6 @@ import sys
 from argparse import ArgumentParser
 from pathlib import Path
 
-# from bokeh.layouts import column
 # from bokeh.palettes import RdYlBu3
 from bokeh.plotting import curdoc
 from bokeh.models.widgets import Select
@@ -59,14 +58,18 @@ args = parse_input()
 options = parse_config(args.configFile)
 
 avaliable_channels = ["test", "two"]
-channel_detail_title = 'Recent data from channel: '
-select = Select(title=channel_detail_title, value="test", options=avaliable_channels)
+select = Select(
+    title="Select channel:",
+    value="test", options=avaliable_channels
+)
 
-source = get_data_source(
-    'http://' + options['client']['host'] + ':' + str(options['client']['port']) + '/get/CHANNEL1')
-p = get_stream_plot('Stream', 'channel_stream')
-p.circle(source=source, x='time', y='data')
-p.x_range.follow = "end"
+source = get_data_source(channel='CHANNEL1', **options['client'])
+channel_stream = get_stream_plot(
+    title='Stream',
+    plot_height=400,
+    name="channel_stream"
+)
+channel_stream.circle(source=source, x='time', y='data')
 
 
 ##########
@@ -77,7 +80,8 @@ app_name = 'UT Burn In @ UMD'
 curdoc().title = app_name
 curdoc().template_variables['app_name'] = app_name
 
-select_layout = widgetbox(select, name='select')
+select_layout = widgetbox(select, name='select',
+                          sizing_mode='scale_width')
 
 curdoc().add_root(select_layout)
-curdoc().add_root(p)
+curdoc().add_root(channel_stream)
