@@ -62,12 +62,17 @@ h2 {
     display: flex;
 }
 
+.ToolBox {
+    position: sticky;
+    position: -webkit-sticky;  /* Safari */
+    top: 0;
+}
+
 .LeftBar {
     width: 25%;
 }
 
 .RightBar{
-    width: 75%;
     flex-grow: 1;
     flex-shrink: 0;
 }
@@ -77,19 +82,14 @@ h2 {
 /* Frames surrending plots */
 /***************************/
 
-.DataBox {
-    margin: 16px;
-    border: 2px solid #c0c0c0;
-}
-
-.InnerDataBox {
-    padding: 12px;
-}
-
 .BokehSelect {
     margin: 0;
     padding: 0 6px 6px 6px;
     background: #cae9eb;
+}
+
+.PlotBdy {
+    margin: 18px;
 }
 
 
@@ -97,14 +97,23 @@ h2 {
 /* Bokeh stylings */
 /******************/
 
-.bk-root {
+.bk-widget-box {
     font-family: monospace;
     font-size: 16px;
+    margin: 0;
     color: #243b98;
+    background: #cae9eb;
 }
 
 .bk-widget-form-input {
     font-family: monospace;
+    font-size: 14px;
+    color: #243b98;
+}
+
+.bk-shading {
+    font-family: monospace;
     font-size: 16px;
     color: #243b98;
+    background: #cae9eb;
 }
