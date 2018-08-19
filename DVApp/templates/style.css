@@ -1,15 +1,23 @@
 body {
+    width: 100%;
     margin: 0;
     padding: 0;
-    font-size: 16px;
     line-height: 1.5;
+    font-size: 16px;
     font-family: monospace;
-    width: 100%;
+    color: #5f5f5f;
 }
 
 h1 {
-    margin: 12px 12px 12px 12px;
+    margin: 12px;
     font-size: 24px;
+}
+
+h2 {
+    margin: 0;
+    padding: 6px;
+    font-size: 20px;
+    background: #c0c0c0;
 }
 
 
@@ -44,7 +52,20 @@ h1 {
     top: 0;
 }
 
+.TopSpacer {
+    padding: 60px 0 0 0;
+}
+
 .Container {
     width: 75%;
     margin: auto;
+}
+
+.DataBox {
+    margin: 12px;
+    border: 2px solid #c0c0c0;
+}
+
+.InnerDataBox {
+    padding: 12px;
 }
