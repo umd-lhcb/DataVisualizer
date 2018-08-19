@@ -8,17 +8,15 @@
 
 {% block contents %}
 
-<div class="StickyTopBar BgLHCbDarkBlue FgLHCbLightBlue">
-    <div class="Container">
-        <h1> {{ app_name }} </h1>
-    </div>
-</div>
-
 <div class="Container">
-    <div class="DataBox">
+    <div class="LeftBar FgLHCbLightBlue">
+        <h1> {{ app_name }} </h1>
         <div class="BokehSelect"> {{ embed(roots.select) }} </div>
-        <div class="InnerDataBox">
-            {{ embed(roots.channel_stream) }}
+    </div>
+
+    <div class="RigtBar">
+        <div class="DataBox">
+            {{ embed(roots.channel_stream )}}
         </div>
     </div>
 </div>

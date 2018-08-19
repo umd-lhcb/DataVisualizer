@@ -6,11 +6,13 @@ body {
     font-size: 12px;
     font-family: monospace;
     color: #5f5f5f;
+    background: #243b98;
 }
 
 h1 {
     margin: 0;
     padding: 12px;
+    text-align: center;
     font-size: 24px;
 }
 
@@ -21,6 +23,9 @@ h2 {
     background: #c0c0c0;
 }
 
+/**********/
+/* Colors */
+/**********/
 
 .BgLHCbLightBlue {
     background: #cae9eb;
@@ -47,17 +52,33 @@ h2 {
 }
 
 
-.StickyTopBar {
-    width: 100%;
-}
+/***************/
+/* Main layout */
+/***************/
 
 .Container {
     width: 75%;
     margin: auto;
+    display: flex;
 }
 
+.LeftBar {
+    width: 25%;
+}
+
+.RightBar{
+    width: 75%;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+
+/***************************/
+/* Frames surrending plots */
+/***************************/
+
 .DataBox {
-    margin: 12px;
+    margin: 16px;
     border: 2px solid #c0c0c0;
 }
 
@@ -68,22 +89,22 @@ h2 {
 .BokehSelect {
     margin: 0;
     padding: 0 6px 6px 6px;
-    font-family: monospace;
-    font-size: 20px;
-    background: #c0c0c0;
+    background: #cae9eb;
 }
 
 
+/******************/
 /* Bokeh stylings */
+/******************/
 
 .bk-root {
     font-family: monospace;
-    font-size: 14px;
-    color: #5f5f5f;
+    font-size: 16px;
+    color: #243b98;
 }
 
 .bk-widget-form-input {
     font-family: monospace;
-    font-size: 14px;
-    color: #5f5f5f;
+    font-size: 16px;
+    color: #243b98;
 }

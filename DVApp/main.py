@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Sun Aug 19, 2018 at 04:52 PM -0400
+# Last Change: Sun Aug 19, 2018 at 04:54 PM -0400
 
 import yaml
 import sys
@@ -67,7 +67,7 @@ source = get_data_source(channel='CHANNEL1', **options['client'])
 channel_stream = get_stream_plot(
     title='Stream',
     plot_height=400,
-    name="channel_stream"
+    name="channel_stream", sizing_mode="scale_width"
 )
 channel_stream.circle(source=source, x='time', y='data')
 
@@ -80,8 +80,8 @@ app_name = 'UT Burn In @ UMD'
 curdoc().title = app_name
 curdoc().template_variables['app_name'] = app_name
 
-select_layout = widgetbox(select, name='select',
-                          sizing_mode='scale_width')
-
+select_layout = widgetbox(select,
+                          name='select', sizing_mode='scale_width')
 curdoc().add_root(select_layout)
+
 curdoc().add_root(channel_stream)
