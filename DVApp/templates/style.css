@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.5;
-    font-size: 16px;
+    font-size: 12px;
     font-family: monospace;
     color: #5f5f5f;
 }
@@ -19,6 +19,7 @@ h2 {
     font-size: 20px;
     background: #c0c0c0;
 }
+
 
 
 .BgLHCbLightBlue {
@@ -68,4 +69,20 @@ h2 {
 
 .InnerDataBox {
     padding: 12px;
+}
+
+.BokehSelect {
+    margin: 0;
+    padding: 0 6px 6px 6px;
+    font-family: monospace;
+    font-size: 20px;
+    background: #c0c0c0;
+}
+
+
+/* Bokeh stylings */
+
+.bk-root {
+    font-family: monospace;
+    font-size: 14px;
 }

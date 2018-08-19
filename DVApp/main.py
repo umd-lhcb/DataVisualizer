@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Sat Aug 18, 2018 at 12:36 AM -0400
+# Last Change: Sun Aug 19, 2018 at 02:54 AM -0400
 
 import yaml
 import sys
@@ -13,7 +13,6 @@ from pathlib import Path
 from bokeh.plotting import curdoc
 from bokeh.models.widgets import Select
 from bokeh.layouts import widgetbox
-from bokeh.layouts import column
 
 from elements import get_data_source
 from elements import get_stream_plot
@@ -60,7 +59,8 @@ args = parse_input()
 options = parse_config(args.configFile)
 
 avaliable_channels = ["test", "two"]
-select = Select(title="Select channel:", value="test", options=avaliable_channels)
+channel_detail_title = 'Recent data from channel: '
+select = Select(title=channel_detail_title, value="test", options=avaliable_channels)
 
 source = get_data_source(
     'http://' + options['client']['host'] + ':' + str(options['client']['port']) + '/get/CHANNEL1')
@@ -74,18 +74,9 @@ p.x_range.follow = "end"
 ##########
 
 app_name = 'UT Burn In @ UMD'
-curdoc().template_variables['app_name'] = app_name
 curdoc().title = app_name
+curdoc().template_variables['app_name'] = app_name
 
-layout = column([widgetbox(select), p], name='layout')
+select_layout = widgetbox(select, name='select')
 
-curdoc().add_root(layout)
-
-curdoc().template_variables['stats_names'] = ['users', 'new_users', 'time', 'sessions', 'sales']
-curdoc().template_variables['stats'] = {
-    'users'     : {'icon': 'user',        'value': 11200, 'change':  4   , 'label': 'Total Users'},
-    'new_users' : {'icon': 'user',        'value': 350,   'change':  1.2 , 'label': 'New Users'},
-    'time'      : {'icon': 'clock-o',     'value': 5.6,   'change': -2.3 , 'label': 'Total Time'},
-    'sessions'  : {'icon': 'user',        'value': 27300, 'change':  0.5 , 'label': 'Total Sessions'},
-    'sales'     : {'icon': 'dollar-sign', 'value': 8700,  'change': -0.2 , 'label': 'Average Sales'},
-    }
+curdoc().add_root(select_layout)
