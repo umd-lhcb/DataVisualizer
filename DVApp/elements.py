@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Wed Aug 15, 2018 at 01:46 AM -0400
+# Last Change: Sun Aug 19, 2018 at 03:27 AM -0400
 
 from bokeh.models.sources import AjaxDataSource
 from bokeh.plotting import figure
@@ -19,8 +19,9 @@ def get_data_source(data_url, polling_interval=100):
 # Plot #
 ########
 
-def get_stream_plot(title, plot_height=300, plot_width=800):
+def get_stream_plot(title, name, plot_height=300, plot_width=800):
     fig = figure(
+        name=name,
         plot_height=plot_height, plot_width=plot_width,
         title=title, x_axis_type='datetime'
     )

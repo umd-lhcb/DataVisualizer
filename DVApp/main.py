@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Sun Aug 19, 2018 at 02:54 AM -0400
+# Last Change: Sun Aug 19, 2018 at 03:28 AM -0400
 
 import yaml
 import sys
@@ -64,7 +64,7 @@ select = Select(title=channel_detail_title, value="test", options=avaliable_chan
 
 source = get_data_source(
     'http://' + options['client']['host'] + ':' + str(options['client']['port']) + '/get/CHANNEL1')
-p = get_stream_plot('Stream')
+p = get_stream_plot('Stream', 'channel_stream')
 p.circle(source=source, x='time', y='data')
 p.x_range.follow = "end"
 
@@ -80,3 +80,4 @@ curdoc().template_variables['app_name'] = app_name
 select_layout = widgetbox(select, name='select')
 
 curdoc().add_root(select_layout)
+curdoc().add_root(p)
