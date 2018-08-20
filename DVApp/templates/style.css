@@ -90,6 +90,8 @@ h2 {
 
 .PlotBdy {
     margin: 18px;
+    padding: 6px;
+    background: #ffffff;
 }
 
 
@@ -111,9 +113,7 @@ h2 {
     color: #243b98;
 }
 
-.bk-shading {
+.bk-canvas-overlays {
     font-family: monospace;
-    font-size: 16px;
-    color: #243b98;
-    background: #cae9eb;
+    font-size: 14px;
 }

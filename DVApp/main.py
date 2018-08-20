@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Sun Aug 19, 2018 at 06:26 PM -0400
+# Last Change: Sun Aug 19, 2018 at 08:06 PM -0400
 
 import yaml
 import sys
@@ -63,7 +63,7 @@ select = Select(
     value="test", options=avaliable_channels
 )
 
-source = get_data_source(channel='RAND_UNIFORM_I', **options['client'])
+source = get_data_source(channel='RAND_UNIFORM_I1', **options['client'])
 channel_stream = get_stream_plot(
     title='Stream',
     name="channel_stream", sizing_mode="scale_width",
