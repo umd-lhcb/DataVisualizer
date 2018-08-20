@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Sun Aug 19, 2018 at 08:06 PM -0400
-
-import yaml
-import sys
-
-from argparse import ArgumentParser
-from pathlib import Path
+# Last Change: Mon Aug 20, 2018 at 12:18 AM -0400
 
 # from bokeh.palettes import RdYlBu3
 from bokeh.plotting import curdoc
@@ -16,60 +10,39 @@ from bokeh.layouts import widgetbox
 from elements import get_data_source
 from elements import get_stream_plot
 
-
-#################################
-# Parse arguments/configuration #
-#################################
-
-def parse_input():
-    parser = ArgumentParser(
-        description='A data visualization server for burn-in.'
-    )
-
-    parser.add_argument(
-        '--config-file',
-        dest='configFile',
-        help='''
-        specify configuration file.
-        ''',
-        type=str,
-        default='DVApp.yml'
-    )
-
-    return parser.parse_args()
-
-
-def parse_config(config_file):
-    if Path(config_file).exists():
-        with open(config_file) as cfg:
-            parsed = yaml.load(cfg)
-        return parsed
-
-    else:
-        print('{}: configuration file does not exist.'.format(config_file))
-        sys.exit(1)
-
-
 #########
 # Setup #
 #########
 
-args = parse_input()
-options = parse_config(args.configFile)
-
-avaliable_channels = ["test", "two"]
+avaliable_channels = curdoc().channel_list
 select = Select(
     title="Select channel:",
-    value="test", options=avaliable_channels
+    value=avaliable_channels[0], options=avaliable_channels
 )
 
-source = get_data_source(channel='RAND_UNIFORM_I1', **options['client'])
+server_config = curdoc().server_config
+source = get_data_source(channel='RAND_UNIFORM_I1', **server_config)
+
 channel_stream = get_stream_plot(
     title='Stream',
     name="channel_stream", sizing_mode="scale_width",
     plot_width=900, plot_height=300
 )
 channel_stream.circle(source=source, x='time', y='data')
+
+channel_hist = get_stream_plot(
+    title='hist',
+    name="channel_hist", sizing_mode="scale_width",
+    plot_width=400, plot_height=300
+)
+# channel_hist_data, channel_hist_edges = np.histogram(source.data['data'])
+# channel_hist.vbar(x='data', source=source)
+
+overall_hist = get_stream_plot(
+    title='hist',
+    name="overall_hist", sizing_mode="scale_width",
+    plot_width=400, plot_height=300
+)
 
 
 ##########
@@ -85,3 +58,5 @@ select_layout = widgetbox(select,
 curdoc().add_root(select_layout)
 
 curdoc().add_root(channel_stream)
+curdoc().add_root(channel_hist)
+curdoc().add_root(overall_hist)
