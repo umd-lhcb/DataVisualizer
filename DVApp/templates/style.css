@@ -94,6 +94,10 @@ h2 {
     background: #ffffff;
 }
 
+.MultiPlotBdy {
+    display: flex;
+}
+
 
 /******************/
 /* Bokeh stylings */
@@ -111,9 +115,4 @@ h2 {
     font-family: monospace;
     font-size: 14px;
     color: #243b98;
-}
-
-.bk-canvas-overlays {
-    font-family: monospace;
-    font-size: 14px;
 }
