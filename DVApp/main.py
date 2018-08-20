@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 #
-# Last Change: Mon Aug 20, 2018 at 02:33 AM -0400
+# Last Change: Mon Aug 20, 2018 at 01:41 PM -0400
 
 # from bokeh.palettes import RdYlBu3
 from bokeh.plotting import curdoc
 from bokeh.models.widgets import Select
-from bokeh.models.annotations import Title
 from bokeh.layouts import widgetbox
 
-from elements import get_data_source
+from elements import get_url, get_data_source
 from elements import get_stream_plot
 
 
@@ -18,9 +17,8 @@ from elements import get_stream_plot
 
 def update_single_channel(attr, old, new):
     channel_stream.title.text = new
-    channel_stream.data = get_data_source(
-        channel=select.value, **curdoc().server_config
-    )
+    url = get_url(**curdoc().server_config, channel=new)
+    timeseries_source.data_url = url
 
 
 #########
@@ -36,9 +34,8 @@ select = Select(
 select.on_change('value', update_single_channel)
 
 # Single channel time-series streaming
-timeseries_source = get_data_source(
-    channel=select.value, **curdoc().server_config
-)
+timeseries_url = get_url(**curdoc().server_config, channel=select.value)
+timeseries_source = get_data_source(timeseries_url)
 channel_stream = get_stream_plot(
     title=select.value,
     name="channel_stream", sizing_mode="scale_width",

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Mon Aug 20, 2018 at 12:16 AM -0400
+# Last Change: Mon Aug 20, 2018 at 01:38 PM -0400
 
 from bokeh.models.sources import AjaxDataSource
 from bokeh.plotting import figure
@@ -11,10 +11,12 @@ from bokeh.models.formatters import DatetimeTickFormatter
 # Data source #
 ###############
 
-def get_data_source(host='localhost', port=45678, channel='CHANNEL1',
-                    polling_interval=1000,
-                    **kwargs):
-    url = 'http://{}:{}/get/{}'.format(host, port, channel)
+def get_url(host='localhost', port=45678, channel='CHANNEL1',
+            entry='get', **kwargs):
+    return 'http://{}:{}/{}/{}'.format(host, port, entry, channel)
+
+
+def get_data_source(url, polling_interval=1000):
     return AjaxDataSource(data_url=url, polling_interval=polling_interval)
 
 
