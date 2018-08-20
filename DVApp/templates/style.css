@@ -74,7 +74,18 @@ h2 {
 
 .RightBar{
     flex-grow: 1;
-    flex-shrink: 0;
+    flex-shrink: 1;
+}
+
+.MultiPlotFrame {
+    width: 100%;
+    display: flex;
+}
+
+.SinglePlotFrame {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
 }
 
 
@@ -92,10 +103,6 @@ h2 {
     margin: 18px;
     padding: 6px;
     background: #ffffff;
-}
-
-.MultiPlotBdy {
-    display: flex;
 }
 
 
