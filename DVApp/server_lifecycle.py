@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Mon Aug 20, 2018 at 12:44 AM -0400
+# Last Change: Mon Aug 20, 2018 at 12:48 AM -0400
 
 import sys
 import yaml
@@ -69,6 +69,9 @@ def get_channel_list(sensors_list):
 
                 for i in range(1, numOfChs+1):
                     channel_list.append(chPrefix+str(i))
+
+            if 'ThermDataSource' in name:
+                channel_list.append(spec['displayName'])
 
     return channel_list
 
