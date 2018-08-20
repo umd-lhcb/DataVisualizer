@@ -65,7 +65,7 @@ h2 {
 .ToolBox {
     position: sticky;
     position: -webkit-sticky;  /* Safari */
-    top: 0;
+    top: -60px;
 }
 
 .LeftBar {
