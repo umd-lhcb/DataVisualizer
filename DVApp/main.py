@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 #
-# Last Change: Mon Aug 20, 2018 at 01:41 PM -0400
+# Last Change: Tue Aug 28, 2018 at 11:58 PM -0400
 
 # from bokeh.palettes import RdYlBu3
 from bokeh.plotting import curdoc
 from bokeh.models.widgets import Select
+from bokeh.models.glyphs import VBar
 from bokeh.layouts import widgetbox
 
 from elements import get_url, get_data_source
@@ -45,13 +46,16 @@ channel_stream.circle(source=timeseries_source,
                       x='time', y='data')
 
 # Single channel histogram
+hist_url = get_url(**curdoc().server_config, channel=select.value,
+                   entry='stats/hist')
+hist_source = get_data_source(hist_url, polling_interval=1000*60*5)
 channel_hist = get_stream_plot(
     title='hist',
     name="channel_hist", sizing_mode="scale_width",
     plot_width=400, plot_height=300
 )
-# channel_hist_data, channel_hist_edges = np.histogram(source.data['data'])
-# channel_hist.vbar(x='data', source=source)
+hist_glyph = VBar(x="hist", top="freq")
+channel_hist.add_glyph(hist_source, hist_glyph)
 
 # Overall histogram
 overall_hist = get_stream_plot(
