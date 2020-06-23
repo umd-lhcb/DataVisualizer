@@ -8,11 +8,14 @@ pkgs.mkShell {
   name = "DataVisualizer";
   buildInputs = with pythonPackages; [
     # Compilers and other build dependencies
-    #pkgs.gcc
+    pkgs.stdenv
 
-    # Some Python libraries needs to be installed via nix
-    hidapi
-    RPi_GPIO
+    # Auto completion
+    jedi
+
+    # Linters
+    flake8
+    pylint
 
     # Python requirements (enough to get a virtualenv going).
     virtualenvwrapper
