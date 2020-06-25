@@ -12,22 +12,12 @@
     <div class="LeftBar">
         <div class="ToolBox FgLHCbDarkBlue BgLHCbLightBlue">
             <h1> {{ app_name }} </h1>
-            <div class="BokehSelect"> {{ embed(roots.select) }} </div>
         </div>
     </div>
 
     <div class="RightBar">
         <div class="PlotBdy">
-            {{ embed(roots.channel_stream) }}
-        </div>
-
-        <div class="MultiPlotFrame">
-            <div class="SinglePlotFrame PlotBdy">
-                {{ embed(roots.channel_hist) }}
-            </div>
-            <div class="SinglePlotFrame PlotBdy">
-                {{ embed(roots.overall_hist) }}
-            </div>
+            {{ embed(roots.psu_plot) }}
         </div>
     </div>
 </div>

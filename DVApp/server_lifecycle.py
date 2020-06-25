@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Fri Jun 26, 2020 at 03:43 AM +0800
+# Last Change: Fri Jun 26, 2020 at 03:50 AM +0800
 
 import sys
 import yaml
@@ -64,8 +64,9 @@ def get_channel_list(sensors_list):
 
     for sensor_spec in sensors_list:
         for name, spec in sensor_spec.items():
-            if 'Fire' or 'Water' in name:
+            if 'Fire' in name or 'Water' in name:
                 pass
+
             else:
                 if 'psuChannels' in spec.keys():
                     psu_channel_list += [

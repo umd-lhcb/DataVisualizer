@@ -1,68 +1,49 @@
 #!/usr/bin/env python
 #
-# Last Change: Tue Aug 28, 2018 at 11:58 PM -0400
+# Last Change: Fri Jun 26, 2020 at 03:59 AM +0800
 
-# from bokeh.palettes import RdYlBu3
+from math import floor
+
 from bokeh.plotting import curdoc
-from bokeh.models.widgets import Select
-from bokeh.models.glyphs import VBar
-from bokeh.layouts import widgetbox
+from bokeh.palettes import Viridis256
 
 from elements import get_url, get_data_source
 from elements import get_stream_plot
 
 
-###############
-# Interaction #
-###############
+###########
+# Helpers #
+###########
 
-def update_single_channel(attr, old, new):
-    channel_stream.title.text = new
-    url = get_url(**curdoc().server_config, channel=new)
-    timeseries_source.data_url = url
+def pick_colors(num):
+    gap = floor(256/num)
+    return [Viridis256[i*gap] for i in range(num)]
 
 
 #########
 # Setup #
 #########
 
-# Select box
-avaliable_channels = curdoc().channel_list
-select = Select(
-    title="Select channel:",
-    value=avaliable_channels[0], options=avaliable_channels
-)
-select.on_change('value', update_single_channel)
+server_config = curdoc().server_config
+psu_channels = curdoc().psu_channel_list
+temp_channels = curdoc().temp_channel_list
 
-# Single channel time-series streaming
-timeseries_url = get_url(**curdoc().server_config, channel=select.value)
-timeseries_source = get_data_source(timeseries_url)
-channel_stream = get_stream_plot(
-    title=select.value,
-    name="channel_stream", sizing_mode="scale_width",
-    plot_width=900, plot_height=300
+# PSU streaming plots
+psu_plot = get_stream_plot(
+    title="MARATON current (click on legend to toggle channel)",
+    name="psu_plot", sizing_mode="scale_width",
+    plot_width=900, plot_height=600
 )
-channel_stream.circle(source=timeseries_source,
-                      x='time', y='data')
 
-# Single channel histogram
-hist_url = get_url(**curdoc().server_config, channel=select.value,
-                   entry='stats/hist')
-hist_source = get_data_source(hist_url, polling_interval=1000*60*5)
-channel_hist = get_stream_plot(
-    title='hist',
-    name="channel_hist", sizing_mode="scale_width",
-    plot_width=400, plot_height=300
-)
-hist_glyph = VBar(x="hist", top="freq")
-channel_hist.add_glyph(hist_source, hist_glyph)
+for name, color in zip(psu_channels, pick_colors(len(psu_channels))):
+    url = get_url(**server_config, channel=name)
+    src = get_data_source(url)
+    psu_plot.line(source=src, x='time', y='data',
+                  line_width=2, color=color, alpha=0.8,
+                  legend_label=name)
 
-# Overall histogram
-overall_hist = get_stream_plot(
-    title='hist',
-    name="overall_hist", sizing_mode="scale_width",
-    plot_width=400, plot_height=300
-)
+psu_plot.legend.location = "top_left"
+psu_plot.legend.click_policy = "hide"
 
 
 ##########
@@ -73,10 +54,4 @@ app_name = 'UT Burn In @ UMD'
 curdoc().title = app_name
 curdoc().template_variables['app_name'] = app_name
 
-select_layout = widgetbox(select,
-                          name='select', sizing_mode='scale_width')
-curdoc().add_root(select_layout)
-
-curdoc().add_root(channel_stream)
-curdoc().add_root(channel_hist)
-curdoc().add_root(overall_hist)
+curdoc().add_root(psu_plot)
