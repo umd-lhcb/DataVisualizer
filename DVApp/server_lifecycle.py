@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Mon Aug 20, 2018 at 12:48 AM -0400
+# Last Change: Fri Jun 26, 2020 at 01:28 AM +0800
 
 import sys
 import yaml
@@ -46,7 +46,7 @@ def parse_input():
 def parse_config(config_file):
     if Path(config_file).exists():
         with open(config_file) as cfg:
-            parsed = yaml.load(cfg)
+            parsed = yaml.safe_load(cfg)
             return parsed
 
     else:
@@ -63,15 +63,10 @@ def get_channel_list(sensors_list):
 
     for sensor_spec in sensors_list:
         for name, spec in sensor_spec.items():
-            if 'RandUniformDataSource' in name:
-                chPrefix = spec['chPrefix']
-                numOfChs = int(spec['numOfChs'])
-
-                for i in range(1, numOfChs+1):
-                    channel_list.append(chPrefix+str(i))
-
-            if 'ThermDataSource' in name:
-                channel_list.append(spec['displayName'])
+            try:
+                channel_list.append(spec['chName'])
+            except KeyError:
+                print("Can't process: {}".format(channel_list))
 
     return channel_list
 
