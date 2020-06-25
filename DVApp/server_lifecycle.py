@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Fri Jun 26, 2020 at 01:28 AM +0800
+# Last Change: Fri Jun 26, 2020 at 03:10 AM +0800
 
 import sys
 import yaml
@@ -63,10 +63,14 @@ def get_channel_list(sensors_list):
 
     for sensor_spec in sensors_list:
         for name, spec in sensor_spec.items():
-            try:
-                channel_list.append(spec['chName'])
-            except KeyError:
-                print("Can't process: {}".format(channel_list))
+            if 'Fire' or 'Water' in name:
+                pass
+            else:
+                if 'psuChannels' in spec.keys():
+                    channel_list += [spec['displayName']+str(i)
+                                     for i in spec['psuChannels']]
+                else:
+                    channel_list.append(spec['displayName'])
 
     return channel_list
 
