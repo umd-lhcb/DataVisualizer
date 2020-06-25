@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #
-# Last Change: Fri Jun 26, 2020 at 03:59 AM +0800
+# Last Change: Fri Jun 26, 2020 at 04:17 AM +0800
 
 from math import floor
 
 from bokeh.plotting import curdoc
-from bokeh.palettes import Viridis256
+from bokeh.palettes import Category20b
 
 from elements import get_url, get_data_source
 from elements import get_stream_plot
@@ -15,9 +15,9 @@ from elements import get_stream_plot
 # Helpers #
 ###########
 
-def pick_colors(num):
-    gap = floor(256/num)
-    return [Viridis256[i*gap] for i in range(num)]
+def pick_colors(num, tot=20, palettes=Category20b[20]):
+    gap = floor(tot/num)
+    return [palettes[i*gap] for i in range(num)]
 
 
 #########
@@ -31,8 +31,8 @@ temp_channels = curdoc().temp_channel_list
 # PSU streaming plots
 psu_plot = get_stream_plot(
     title="MARATON current (click on legend to toggle channel)",
-    name="psu_plot", sizing_mode="scale_width",
-    plot_width=900, plot_height=600
+    name="psu_plot", sizing_mode="stretch_width",
+    plot_width=900, plot_height=450
 )
 
 for name, color in zip(psu_channels, pick_colors(len(psu_channels))):
@@ -44,6 +44,8 @@ for name, color in zip(psu_channels, pick_colors(len(psu_channels))):
 
 psu_plot.legend.location = "top_left"
 psu_plot.legend.click_policy = "hide"
+
+#
 
 
 ##########
