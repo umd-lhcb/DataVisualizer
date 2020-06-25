@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Fri Jun 26, 2020 at 04:20 AM +0800
+# Last Change: Fri Jun 26, 2020 at 04:35 AM +0800
 
 from math import floor
 
@@ -47,7 +47,7 @@ psu_plot.legend.click_policy = "hide"
 
 # Temp streaming plot
 temp_plot = get_stream_plot(
-    title="Temperature current (click on legend to toggle channel)",
+    title="Temperature (click on legend to toggle channel)",
     name="temp_plot", sizing_mode="stretch_width",
     plot_width=900, plot_height=250
 )
