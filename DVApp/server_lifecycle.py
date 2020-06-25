@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Last Change: Fri Jun 26, 2020 at 03:10 AM +0800
+# Last Change: Fri Jun 26, 2020 at 03:43 AM +0800
 
 import sys
 import yaml
@@ -59,7 +59,8 @@ def parse_config(config_file):
 ################
 
 def get_channel_list(sensors_list):
-    channel_list = []
+    psu_channel_list = []
+    temp_channel_list = []
 
     for sensor_spec in sensors_list:
         for name, spec in sensor_spec.items():
@@ -67,12 +68,12 @@ def get_channel_list(sensors_list):
                 pass
             else:
                 if 'psuChannels' in spec.keys():
-                    channel_list += [spec['displayName']+str(i)
-                                     for i in spec['psuChannels']]
+                    psu_channel_list += [
+                        spec['displayName']+str(i) for i in spec['psuChannels']]
                 else:
-                    channel_list.append(spec['displayName'])
+                    temp_channel_list.append(spec['displayName'])
 
-    return channel_list
+    return psu_channel_list, temp_channel_list
 
 
 #########
@@ -91,15 +92,24 @@ def on_server_loaded(server_context):
     srv_cfg = parse_config(args.configFile[0])
     setattr(server_context, 'server_config', srv_cfg['client'])
 
-    channel_list = []
+    psu_channel_list = []
+    temp_channel_list = []
+
     for f in args.configFile:
         cfg = parse_config(f)
-        channel_list = channel_list + get_channel_list(cfg['sensors'])
-    setattr(server_context, 'channel_list', channel_list)
+        p_list, t_list = get_channel_list(cfg['sensors'])
+        psu_channel_list += p_list
+        temp_channel_list += t_list
+
+    setattr(server_context, 'psu_channel_list', psu_channel_list)
+    setattr(server_context, 'temp_channel_list', temp_channel_list)
 
 
 def on_session_created(session_context):
     setattr(session_context._document, 'server_config',
             session_context.server_context.server_config)
-    setattr(session_context._document, 'channel_list',
-            session_context.server_context.channel_list)
+
+    setattr(session_context._document, 'psu_channel_list',
+            session_context.server_context.psu_channel_list)
+    setattr(session_context._document, 'temp_channel_list',
+            session_context.server_context.temp_channel_list)
