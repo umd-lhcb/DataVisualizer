@@ -1,0 +1,37 @@
+client:
+    host: 129.2.92.92
+    port: 45678
+    maxConcurrency: 4
+
+sensors:
+    - Therm.ThermDataSource:
+        sensorPath:
+            - /sys/bus/w1/devices/28-0000098d8197/w1_slave
+            - /sys/bus/w1/devices/28-0000098d94eb/w1_slave
+            - /sys/bus/w1/devices/28-0000098d0cbe/w1_slave
+            - /sys/bus/w1/devices/28-0000098fd7e3/w1_slave
+        displayName: COMBINED_WIRE
+        interval: 5
+    - Current.CurrentMaratonDataSource:
+        ipAddr: 192.168.1.31
+        interval: 60
+        displayName: MARATON_CURR
+        psuChannels:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+            - 10
+            - 11
+            - 12
+    - Alarm.FireAlarmDataSource:
+        ch: 8
+        displayName: FIRE
+    - Alarm.WaterAlarmDataSource:
+        ch: 11
+        displayName: WATER
